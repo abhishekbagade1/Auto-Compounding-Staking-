@@ -18,10 +18,10 @@
      user = signers[1];
  
      const tokenR = await ethers.getContractFactory("TraxToken");
-     stakeToken = await tokenR.deploy();
+     stakeToken = await tokenR.deploy( );
      await stakeToken.deployed();
      
-     const tokenS = await ethers.getContractFactory("TraxToken");
+     const tokenS = await ethers.getContractFactory("USDCToken");
      rewardToken = await tokenS.deploy();
      await rewardToken.deployed();
      
@@ -48,14 +48,14 @@
  
    describe("Staking Rewards Unit Testing", () => {
      it("it should transfer rewards ", async function () {
-       await stakeToken.transfer(user.address, (2000000000000000000000)); //sent USDC tokens to user
-       await rewardToken.transfer(staking.address , (10000*10**18).toString()); 
-       var tx = await staking.connect(admin).setRewardsDuration((365*24*60*60).toString());
+       await stakeToken.transfer(user.address, ("2000000000000000000000")); //sent USDC tokens to user
+       await rewardToken.transfer(staking.address , ("10000000000000000000000")); 
+       var tx = await staking.connect(admin).setRewardsDuration(365*24*60*60);
        var txn = await tx.wait();
-       var tx = await staking.connect(admin).setRewardAmount( (10000000000000000000000).toString());
+       var tx = await staking.connect(admin).setRewardAmount( "10000000000000000000000");
 
 
-       var tx = await staking.connect(user).stake((1000*10**18).toString);
+       var tx = await staking.connect(user).stake("1000000000000000000000");
        var txn = await tx.wait();
 
        await ethers.provider.send("evm_increaseTime", [10 * 24 * 60 * 60]);
@@ -70,7 +70,7 @@
        await ethers.provider.send("evm_mine");
 
 
-       var tx = await staking.connect(user).stake((1000000000000000000000).toString);
+       var tx = await staking.connect(user).stake("1000000000000000000000");
        var txn = await tx.wait();
 
 
